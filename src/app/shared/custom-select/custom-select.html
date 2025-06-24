@@ -2,12 +2,14 @@
   <div class="custom-select-value" #labelContainer>
     <div class="selected-items">
       <ng-container *ngIf="displaySelectedItems.length > 0; else noSelection">
-        <span *ngFor="let item of displaySelectedItems" class="selected-item" [class.hidden-count]="item.hidden">
-          {{ item.label }}
-          <button *ngIf="!item.hidden" type="button" class="remove-btn" (click)="removeSelected(item.label, $event)">
+        <span *ngFor="let wrapper of displaySelectedItems" class="selected-item" [class.hidden-count]="wrapper.hidden">
+          {{ wrapper.item[labelField] }}
+          <button *ngIf="!wrapper.hidden" type="button" class="remove-btn"
+            (click)="removeSelected(wrapper.item, $event)">
             ✕
           </button>
         </span>
+
       </ng-container>
       <ng-template #noSelection>
         <span class="placeholder">{{ placeholder }}</span>

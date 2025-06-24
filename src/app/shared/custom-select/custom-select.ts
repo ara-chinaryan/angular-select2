@@ -22,7 +22,7 @@ export class CustomSelect {
   @Input() options: any[] = [];
   @Input() valueField: string = 'id';
   @Input() labelField: string = 'name';
-  @Input() imageField: string = 'image'; 
+  @Input() imageField: string = 'image';
   @Input() placeholder: string = 'Select';
   @Input() config: { multiple?: boolean } = { multiple: false };
 
@@ -197,12 +197,12 @@ export class CustomSelect {
     this.onSelectItem.emit([]);
   }
 
-  get displaySelectedItems(): { label: string, hidden: boolean }[] {
+  get displaySelectedItems(): { item: any, hidden: boolean }[] {
     if (!this.config.multiple) {
       const selected = this.options.find(
         o => o[this.valueField] === this.selectedValue
       );
-      return selected ? [{ label: selected[this.labelField], hidden: false }] : [];
+      return selected ? [{ item: selected, hidden: false }] : [];
     }
 
     const selectedItems = this.options.filter(o =>
@@ -217,7 +217,7 @@ export class CustomSelect {
     const labelPadding = 16;
 
     let usedWidth = 0;
-    let result: { label: string; hidden: boolean }[] = [];
+    let result: { item: any; hidden: boolean }[] = [];
 
     for (const item of selectedItems) {
       const label = item[this.labelField];
@@ -227,14 +227,17 @@ export class CustomSelect {
         break;
       }
 
-      result.push({ label, hidden: false });
+      result.push({ item, hidden: false });
       usedWidth += labelWidth;
     }
 
     const hiddenCount = selectedItems.length - result.length;
 
     if (hiddenCount > 0) {
-      result.push({ label: `+${hiddenCount}`, hidden: true });
+      result.push({
+        item: { [this.labelField]: `+${hiddenCount}` },
+        hidden: true
+      });
     }
 
     return result;
@@ -248,16 +251,10 @@ export class CustomSelect {
     this.onSelectItem.emit(selectedObjects);
   }
 
-  removeSelected(label: string, event: MouseEvent) {
+  removeSelected(item: any, event: MouseEvent) {
     event.stopPropagation();
 
-    const itemToRemove = this.options.find(
-      item => item[this.labelField] === label
-    );
-
-    if (!itemToRemove) return;
-
-    const value = itemToRemove[this.valueField];
+    const value = item[this.valueField || 'id'];
 
     if (this.config.multiple) {
       this.selectedValues = this.selectedValues.filter(val => val !== value);
@@ -274,6 +271,7 @@ export class CustomSelect {
       }
     }
   }
+
 
 
   ngAfterViewInit(): void {

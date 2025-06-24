@@ -7,7 +7,7 @@
       [config]="{ multiple: true }" 
       placeholder="Select Item">
     </app-custom-select>
-    <div *ngIf="form.get('multi').invalid && form.get('multi').touched">
+    <div *ngIf="(!form.controls.multi?.valid && (form.controls.multi?.dirty || form.controls.multi?.touched))">
       Please select an item.
     </div>
   </div>
