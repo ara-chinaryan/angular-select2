@@ -1,0 +1,51 @@
+<div class="custom-select-container" (click)="toggleDropdown()" [class.open]="dropdownOpen">
+  <div class="custom-select-value" #labelContainer>
+    <div class="selected-items">
+      <ng-container *ngIf="displaySelectedItems.length > 0; else noSelection">
+        <span *ngFor="let item of displaySelectedItems" class="selected-item" [class.hidden-count]="item.hidden">
+          {{ item.label }}
+          <button *ngIf="!item.hidden" type="button" class="remove-btn" (click)="removeSelected(item.label, $event)">
+            ✕
+          </button>
+        </span>
+      </ng-container>
+      <ng-template #noSelection>
+        <span class="placeholder">{{ placeholder }}</span>
+      </ng-template>
+    </div>
+    <span class="arrow" [class.open]="dropdownOpen">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"></path>
+      </svg>
+    </span>
+
+  </div>
+  <div class="dropdown" *ngIf="dropdownOpen">
+    <input type="text" [(ngModel)]="searchTerm" (click)="$event.stopPropagation()" (input)="filterOptions()"
+      placeholder="Search..." id="search_filed" autocomplete="off" />
+    <ul (scroll)="onScroll($event)">
+      <li *ngIf="config.multiple" class="select-actions" (click)="areAllSelected() ? unselectAll() : selectAll()">
+        <button type="button">
+          {{ areAllSelected() ? 'UnSelect All' : 'Select All' }}
+        </button>
+      </li>
+
+
+      <li *ngFor="let item of visibleOptions" (click)="selectItem(item)" class="item" [class.selected]="
+    config.multiple
+      ? selectedValues.includes(item[valueField])
+      : item[valueField] === selectedValue
+  ">
+
+        <img *ngIf="item[imageField]" [src]="item[imageField]" class="select-item-image" alt="item" />
+        {{ item[labelField] }}
+        <ng-container *ngIf="config.multiple">
+          <input type="checkbox" [checked]="selectedValues.includes(item[valueField])" name="checkbox"
+            class="checkbox_select" />
+        </ng-container>
+      </li>
+
+
+    </ul>
+  </div>
+</div>

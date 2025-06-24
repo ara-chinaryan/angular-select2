@@ -1,0 +1,17 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-block">
+  <div style="width: 300px;">
+    <app-custom-select 
+      formControlName="multi" 
+      [options]="myOptions" 
+      (onSelectItem)="handleMulti($event)"
+      [config]="{ multiple: true }" 
+      placeholder="Select Item">
+    </app-custom-select>
+    <div *ngIf="form.get('multi').invalid && form.get('multi').touched">
+      Please select an item.
+    </div>
+  </div>
+  <div>
+    <button type="submit" class="status-primary" [disabled]="form.invalid">Submit</button>
+  </div>
+</form>
