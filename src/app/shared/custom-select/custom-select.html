@@ -23,7 +23,7 @@
 
   </div>
   <div class="dropdown" *ngIf="dropdownOpen">
-    <input type="text" [(ngModel)]="searchTerm" (click)="$event.stopPropagation()" (input)="filterOptions()"
+    <input *ngIf="config.searchable !== false" type="text" [(ngModel)]="searchTerm" (click)="$event.stopPropagation()" (input)="filterOptions()"
       placeholder="Search..." id="search_filed" autocomplete="off" />
     <ul (scroll)="onScroll($event)">
       <li *ngIf="config.multiple" class="select-actions" (click)="areAllSelected() ? unselectAll() : selectAll()">

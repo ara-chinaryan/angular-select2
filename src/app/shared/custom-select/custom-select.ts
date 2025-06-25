@@ -24,7 +24,11 @@ export class CustomSelect {
   @Input() labelField: string = 'name';
   @Input() imageField: string = 'image';
   @Input() placeholder: string = 'Select';
-  @Input() config: { multiple?: boolean } = { multiple: false };
+  @Input() config: { multiple?: boolean; searchable?: boolean } = {
+    multiple: false,
+    searchable: true
+  };
+
 
 
   @Output() valueChange = new EventEmitter<any>();

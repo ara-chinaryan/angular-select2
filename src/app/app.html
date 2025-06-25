@@ -1,10 +1,10 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-block">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div style="width: 300px;">
     <app-custom-select 
       formControlName="multi" 
       [options]="myOptions" 
       (onSelectItem)="handleMulti($event)"
-      [config]="{ multiple: true }" 
+      [config]="{ multiple: true, searchable: true }" 
       placeholder="Select Item">
     </app-custom-select>
     <div *ngIf="(!form.controls.multi?.valid && (form.controls.multi?.dirty || form.controls.multi?.touched))">
