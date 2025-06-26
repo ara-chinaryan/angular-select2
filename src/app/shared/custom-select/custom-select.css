@@ -4,15 +4,11 @@
   position: relative;
   cursor: pointer;
   width: 100%;
-  background: #fff;
-}
-
-.custom-select-container.open {
-  border-color: #007bff;
-}
-
-.custom-select-container .custom-select-value {
-  font-size: 14px;
+  background: #e0e2ec;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
 }
 
 .selected-items {
@@ -21,9 +17,14 @@
   gap: 4px;
 }
 
+#search_filed:focus-visible {
+    outline: none;
+}
+
 .selected-items .selected-item {
-  background-color: #e2e8f0;
-  padding: 2px 6px;
+  background-color: #0079fe;
+  color: white;
+  padding: 9px 6px;
   border-radius: 4px;
   font-size: 13px;
   display: flex;
@@ -32,7 +33,6 @@
 }
 
 .selected-items .selected-item.hidden-count {
-  background-color: #cbd5e0;
   font-weight: bold;
 }
 
@@ -44,19 +44,16 @@
   padding: 0;
   margin-left: 4px;
   line-height: 1;
-  color: #666;
-}
-
-.selected-items .selected-item .remove-btn:hover {
-  color: #000;
+  color: white;
 }
 
 .selected-items .placeholder {
-  color: #999;
+  color: #44474e;
+  padding: 9px 0;
 }
 
-.custom-select-container {
-  position: relative;
+.labelField {
+  font-family: sans-serif;
 }
 
 .custom-select-container .arrow {
@@ -76,7 +73,7 @@
 .custom-select-container .dropdown {
   position: absolute;
   top: 100%;
-  left: 0;
+  left: -1px;
   width: 100%;
   border: 1px solid #ccc;
   background: white;
@@ -85,7 +82,7 @@
 
 .custom-select-container .dropdown #search_filed {
   width: 100%;
-  padding: 6px;
+  padding: 16px;
   box-sizing: border-box;
   border: none;
   border-bottom: 1px solid #ccc;
@@ -100,7 +97,7 @@
 }
 
 .custom-select-container .dropdown ul li {
-  padding: 8px;
+  padding: 14px;
   cursor: pointer;
   position: relative;
 }
@@ -142,4 +139,16 @@
 .checkbox_select {
   position: absolute;
   right: 0;
+  width: 15px;
+  height: 15px;
+}
+.no-results-container {
+  padding: 16px;
+  text-align: center;
+  color: #888;
+}
+.no-results {
+  font-size: 14px;
+  font-weight: bold;
+  color: #44474e; 
 }

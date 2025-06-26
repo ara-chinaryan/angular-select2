@@ -16,17 +16,19 @@
       </ng-template>
     </div>
     <span class="arrow" [class.open]="dropdownOpen">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"></path>
+      <svg viewBox="0 0 24 24" width="24px" height="24px" focusable="false" aria-hidden="true">
+        <path d="M7 10l5 5 5-5z"></path>
       </svg>
     </span>
 
   </div>
   <div class="dropdown" *ngIf="dropdownOpen">
-    <input *ngIf="config.searchable !== false" type="text" [(ngModel)]="searchTerm" (click)="$event.stopPropagation()" (input)="filterOptions()"
-      placeholder="Search..." id="search_filed" autocomplete="off" />
+    <input *ngIf="config.searchable !== false" type="text" [(ngModel)]="searchTerm" (click)="$event.stopPropagation()"
+      (input)="filterOptions()" placeholder="Search..." id="search_filed" autocomplete="off" />
     <ul (scroll)="onScroll($event)">
-      <li *ngIf="config.multiple" class="select-actions" (click)="areAllSelected() ? unselectAll() : selectAll()">
+      <li *ngIf="config.multiple && this.visibleOptions.length != 0" class="select-actions" (click)="areAllSelected() ? unselectAll() : selectAll()">
+        <input type="checkbox" [checked]="this.selectedValues.length === this.options.length" name="checkbox_all"
+          class="checkbox_select" />
         <button type="button">
           {{ areAllSelected() ? 'UnSelect All' : 'Select All' }}
         </button>
@@ -40,13 +42,15 @@
   ">
 
         <img *ngIf="item[imageField]" [src]="item[imageField]" class="select-item-image" alt="item" />
-        {{ item[labelField] }}
+        <span class="labelField">{{ item[labelField] }}</span>
         <ng-container *ngIf="config.multiple">
           <input type="checkbox" [checked]="selectedValues.includes(item[valueField])" name="checkbox"
             class="checkbox_select" />
         </ng-container>
       </li>
-
+      <div *ngIf="this.visibleOptions.length === 0" class="no-results-container">
+        <span class="no-results">No results found</span>
+      </div>
 
     </ul>
   </div>
