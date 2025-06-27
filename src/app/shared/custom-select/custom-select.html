@@ -26,7 +26,8 @@
     <input *ngIf="config.searchable !== false" type="text" [(ngModel)]="searchTerm" (click)="$event.stopPropagation()"
       (input)="filterOptions()" placeholder="Search..." id="search_filed" autocomplete="off" />
     <ul (scroll)="onScroll($event)">
-      <li *ngIf="config.multiple && this.visibleOptions.length != 0" class="select-actions" (click)="areAllSelected() ? unselectAll() : selectAll()">
+      <li *ngIf="config.multiple && this.visibleOptions.length != 0 && config.selectAllButton !== false" 
+          class="select-actions" (click)="areAllSelected() ? unselectAll() : selectAll()">
         <input type="checkbox" [checked]="this.selectedValues.length === this.options.length" name="checkbox_all"
           class="checkbox_select" />
         <button type="button">
@@ -35,11 +36,11 @@
       </li>
 
 
-      <li *ngFor="let item of visibleOptions" (click)="selectItem(item)" class="item" [class.selected]="
-    config.multiple
-      ? selectedValues.includes(item[valueField])
-      : item[valueField] === selectedValue
-  ">
+      <li *ngFor="let item of visibleOptions" (click)="selectItem(item)" 
+      class="item" [class.selected]="config.multiple
+        ? selectedValues.includes(item[valueField])
+        : item[valueField] === selectedValue
+      ">
 
         <img *ngIf="item[imageField]" [src]="item[imageField]" class="select-item-image" alt="item" />
         <span class="labelField">{{ item[labelField] }}</span>

@@ -24,10 +24,17 @@ export class CustomSelect {
   @Input() labelField: string = 'name';
   @Input() imageField: string = 'image';
   @Input() placeholder: string = 'Select';
-  @Input() config: { multiple?: boolean; searchable?: boolean } = {
-    multiple: false,
-    searchable: true
-  };
+  @Input() config: {
+    multiple?: boolean;
+    searchable?: boolean;
+    selectAllButton?: boolean;
+    maxVisibleItems?: number;
+  } = {
+      multiple: false,
+      searchable: true,
+      selectAllButton: true,
+      maxVisibleItems: 100
+    };
 
 
 
@@ -50,7 +57,7 @@ export class CustomSelect {
   visibleOptions: any[] = [];
 
   batchSize = 100;
-  currentIndex = 0;
+  currentChunk = 0;
 
 
   onChange = (_: any) => { };
@@ -83,8 +90,8 @@ export class CustomSelect {
   resetFilter() {
     this.searchTerm = '';
     this.filteredOptions = [...this.allOptions];
-    this.currentIndex = 0;
-    this.visibleOptions = this.filteredOptions.slice(0, this.batchSize);
+    this.currentChunk = 1;
+    this.visibleOptions = this.filteredOptions.slice(0, this.config.maxVisibleItems ?? 100);
   }
 
   toggleDropdown() {
@@ -101,7 +108,7 @@ export class CustomSelect {
       o[this.labelField].toLowerCase().includes(term)
     );
 
-    this.currentIndex = 0;
+    this.currentChunk = 0;
     this.visibleOptions = this.filteredOptions.slice(0, this.batchSize);
   }
 
@@ -109,17 +116,16 @@ export class CustomSelect {
     const target = event.target as HTMLElement;
 
     const threshold = 100;
-    const atBottom =
-      target.scrollTop + target.clientHeight >= target.scrollHeight - threshold;
+    const atBottom = target.scrollTop + target.clientHeight >= target.scrollHeight - threshold;
 
     if (atBottom && this.visibleOptions.length < this.filteredOptions.length) {
-      const nextItems = this.filteredOptions.slice(
-        this.currentIndex + this.batchSize,
-        this.currentIndex + 2 * this.batchSize
+      const nextChunk = this.filteredOptions.slice(
+        this.currentChunk + (this.config.maxVisibleItems ?? 100),
+        this.currentChunk + 2 * (this.config.maxVisibleItems ?? 100)
       );
 
-      this.visibleOptions = [...this.visibleOptions, ...nextItems];
-      this.currentIndex += this.batchSize;
+      this.visibleOptions.push(...nextChunk);
+      this.currentChunk += this.batchSize;
     }
   }
 

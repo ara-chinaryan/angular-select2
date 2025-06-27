@@ -4,7 +4,12 @@
       formControlName="multi" 
       [options]="myOptions" 
       (onSelectItem)="handleMulti($event)"
-      [config]="{ multiple: true, searchable: true }" 
+      [config]="{
+        multiple: true,
+        maxVisibleItems: 100,
+        selectAllButton: true,
+        searchable: true
+      }" 
       placeholder="Select Item">
     </app-custom-select>
     <div *ngIf="(!form.controls.multi?.valid && (form.controls.multi?.dirty || form.controls.multi?.touched))">
