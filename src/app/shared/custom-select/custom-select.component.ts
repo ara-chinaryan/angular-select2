@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, EventEmitter, forwardRef, HostListener, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, forwardRef, HostListener, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -8,17 +8,17 @@ import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
     CommonModule,
     FormsModule
   ],
-  templateUrl: './custom-select.html',
-  styleUrl: './custom-select.css',
+  templateUrl: './custom-select.component.html',
+  styleUrl: './custom-select.component.css',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CustomSelect),
+      useExisting: forwardRef(() => CustomSelectComponent),
       multi: true,
     },
   ],
 })
-export class CustomSelect {
+export class CustomSelectComponent {
   @Input() options: any[] = [];
   @Input() valueField: string = 'id';
   @Input() labelField: string = 'name';
@@ -87,6 +87,13 @@ export class CustomSelect {
     this.resetFilter();
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['options'] && changes['options'].currentValue) {
+      this.allOptions = [...this.options];
+      this.resetFilter();
+    }
+  }
+
   resetFilter() {
     this.searchTerm = '';
     this.filteredOptions = [...this.allOptions];
@@ -147,7 +154,7 @@ export class CustomSelect {
       this.valueChange.emit(this.selectedValues);
       this.onChange(this.selectedValues);
       this.onSelectItem.emit(selectedItems);
-      this.dropdownOpen = false;
+      this.dropdownOpen = true;
 
     } else {
       const isSame = this.selectedValue === item[this.valueField];

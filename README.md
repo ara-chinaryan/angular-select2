@@ -20,17 +20,26 @@ Download `shared/custom-select` component and import your project
 
 ```
 html
- <app-custom-select 
+<app-custom-select 
       formControlName="multi" 
       [options]="myOptions" 
       (onSelectItem)="handleMulti($event)"
-      [config]="{ multiple: true, searchable: true }" 
+      [config]="{
+        multiple: true,
+        maxVisibleItems: 100,
+        selectAllButton: true,
+        searchable: true
+      }" 
       placeholder="Select Item">
-</app-custom-select>
+    </app-custom-select>
 ```
 
 ```
 ts
 myOptions = largeData;
 selectedItemObjects: any[] = [];
+
+handleMulti(items: any[]) {
+   this.selectedItemObjects = items;
+}
 ```
