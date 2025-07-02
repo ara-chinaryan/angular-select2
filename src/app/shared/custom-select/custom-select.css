@@ -4,7 +4,7 @@
   position: relative;
   cursor: pointer;
   width: 100%;
-  background: #e0e2ec;
+  background: #f5f5f5;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
   border-top-left-radius: 4px;
@@ -50,6 +50,7 @@
 .selected-items .placeholder {
   color: #44474e;
   padding: 9px 0;
+  font-family: sans-serif;
 }
 
 .labelField {
@@ -150,5 +151,5 @@
 .no-results {
   font-size: 14px;
   font-weight: bold;
-  color: #44474e; 
+  color: #44474e;
 }
