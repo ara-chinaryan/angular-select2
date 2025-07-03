@@ -214,7 +214,18 @@ export class CustomSelectComponent {
     this.onSelectItem.emit([]);
   }
 
-  get displaySelectedItems(): { item: any, hidden: boolean }[] {
+  getSelectedLabels() {
+    const items = this.displaySelectedItems;
+    if (Array.isArray(items)) {
+      return items
+        .map((wrapper: { item: any, hidden: boolean }) => wrapper?.item?.[this.labelField])
+        .filter(label => label !== undefined && label !== null)
+        .join(', ');
+    }
+    return typeof items === 'string' ? items : '';
+  }
+
+  get displaySelectedItems(): { item: any, hidden: boolean }[] | string {
     if (!this.config.multiple) {
       const selected = this.options.find(
         o => o[this.valueField] === this.selectedValue
@@ -226,38 +237,15 @@ export class CustomSelectComponent {
       this.selectedValues.includes(o[this.valueField])
     );
 
-    if (!this.containerWidth || selectedItems.length === 0) {
-      return [];
-    }
-
-    const avgCharWidth = 8;
-    const labelPadding = 16;
-
-    let usedWidth = 0;
-    let result: { item: any; hidden: boolean }[] = [];
-
-    for (const item of selectedItems) {
-      const label = item[this.labelField];
-      const labelWidth = label.length * avgCharWidth + labelPadding;
-
-      if (usedWidth + labelWidth > this.containerWidth - 50) {
-        break;
-      }
-
-      result.push({ item, hidden: false });
-      usedWidth += labelWidth;
-    }
-
-    const hiddenCount = selectedItems.length - result.length;
+    const maxLabels = this.options.length;
+    const shownLabels = selectedItems.slice(0, maxLabels).map(o => o[this.labelField]);
+    const hiddenCount = selectedItems.length - maxLabels;
 
     if (hiddenCount > 0) {
-      result.push({
-        item: { [this.labelField]: `+${hiddenCount}` },
-        hidden: true
-      });
+      return `${shownLabels.join(', ')}`;
+    } else {
+      return shownLabels.join(', ') || this.placeholder;
     }
-
-    return result;
   }
 
   emitSelectedItems() {
