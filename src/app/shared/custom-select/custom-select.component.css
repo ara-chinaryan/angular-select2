@@ -15,6 +15,9 @@
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
+  position: relative;
+  max-height: 38px;
+  height: 38px;
 }
 
 #search_filed:focus-visible {
@@ -22,13 +25,41 @@
 }
 
 .selected-items .custom_select_placeholder {
-  color: #44474e;
+  color: #0009;
   padding: 9px 0;
   font-family: sans-serif;
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1), color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 16px;
+}
+
+.open_dropdown {
+  transform: translateY(-41%) scale(0.75);
+  position: relative;
+  right: 12px;
 }
 
 .labelField {
   font-family: sans-serif;
+  color: #000;
+}
+
+.checkbox-checked::after {
+  width: 14px;
+  height: 6px;
+  transform-origin: center;
+  top: -4.2426406871px;
+  bottom: 0;
+  right: 12px;
+  margin: auto;
+  color: #3f51b5;
+  border-left: 2px solid currentColor;
+  transform: rotate(-45deg);
+  opacity: 1;
+  box-sizing: content-box;
+  position: absolute;
+  content: "";
+  border-bottom: 2px solid currentColor;
+  transition: opacity 90ms cubic-bezier(0, 0, 0.2, 0.1);
 }
 
 .custom-select-container .arrow {
@@ -75,16 +106,16 @@
   padding: 14px;
   cursor: pointer;
   position: relative;
-  background-color: #efedf0;
+  background-color: #fff;
 }
 
 .custom-select-container .custom_select_dropdown ul .item.selected {
-  background-color: #dae2f9;
+  background-color: #f5f5f5;
   color: #000;
 }
 
 .custom-select-container .custom_select_dropdown ul .item:hover {
-  background: #dedcdf;
+  background: #f5f5f5;
 }
 
 .select-item-image {
@@ -115,9 +146,9 @@
 .checkbox_select {
   position: absolute;
   right: 0;
-  width: 15px;
-  height: 15px;
-  margin: 3px 3px 3px 4px;
+  width: 18px;
+  height: 18px;
+  margin: 3px 10px 3px 4px;
 }
 
 .no-results-container {
@@ -136,5 +167,11 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding: 9px 6px;
+  padding: 12px 0;
+  color: #000000;
+  display: inline-block;
+  width: 98%;
+  position: absolute;
+  left: 0;
+  right: 0;
 }

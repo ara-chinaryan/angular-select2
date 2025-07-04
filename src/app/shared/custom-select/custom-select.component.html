@@ -1,14 +1,15 @@
 <div class="custom-select-container" [class.open]="dropdownOpen">
   <div class="custom-select-value" #labelContainer (click)="toggleDropdown()">
     <div class="selected-items">
-      <ng-container *ngIf="displaySelectedItems.length > 0; else noSelection">
+      <ng-container *ngIf="displaySelectedItems.length > 0">
         <span class="selected-item-list">
           {{ getSelectedLabels() }}
         </span>
       </ng-container>
-      <ng-template #noSelection>
-        <span class="custom_select_placeholder">{{ placeholder }}</span>
-      </ng-template>
+      <span class="custom_select_placeholder"
+        [class.open_dropdown]="dropdownOpen || this.displaySelectedItems.length > 0">
+        {{ placeholder }}
+      </span>
     </div>
     <span class="arrow" [class.open]="dropdownOpen">
       <svg viewBox="0 0 24 24" width="24px" height="24px" focusable="false" aria-hidden="true">
@@ -39,6 +40,9 @@
         <ng-container *ngIf="config.multiple">
           <input type="checkbox" [checked]="selectedValues.includes(item[valueField])" name="checkbox"
             class="checkbox_select" />
+        </ng-container>
+		<ng-container *ngIf="!config.multiple && item[valueField] === selectedValue">
+          <span class="checkbox-checked"></span>
         </ng-container>
       </li>
       <div *ngIf="this.visibleOptions.length === 0" class="no-results-container">

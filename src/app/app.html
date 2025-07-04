@@ -12,8 +12,10 @@
       }" 
       placeholder="Select Item">
     </app-custom-select>
-    <div *ngIf="(!form.controls.multi?.valid && (form.controls.multi?.dirty || form.controls.multi?.touched))">
-      Please select an item.
+    <div class="error-message">
+      <span *ngIf="(!form.controls.multi?.valid && (form.controls.multi?.dirty || form.controls.multi?.touched))">
+        Please select an item.
+      </span>
     </div>
   </div>
   <div>

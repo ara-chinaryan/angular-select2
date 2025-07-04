@@ -198,7 +198,6 @@ export class CustomSelectComponent {
 
 
   selectAll() {
-    this.dropdownOpen = false;
     this.selectedValues = this.options.map(o => o[this.valueField]);
     const selectedItems = [...this.options];
     this.valueChange.emit(this.selectedValues);
@@ -207,7 +206,6 @@ export class CustomSelectComponent {
   }
 
   unselectAll() {
-    this.dropdownOpen = false;
     this.selectedValues = [];
     this.valueChange.emit(this.selectedValues);
     this.onChange(this.selectedValues);
@@ -244,7 +242,7 @@ export class CustomSelectComponent {
     if (hiddenCount > 0) {
       return `${shownLabels.join(', ')}`;
     } else {
-      return shownLabels.join(', ') || this.placeholder;
+      return shownLabels.join(', ');
     }
   }
 
